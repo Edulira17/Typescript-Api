@@ -16,8 +16,6 @@ export default class PetController {
   criaPet(req: Request, res: Response) {
     const { especie, nome, dataDeNascimento, adotado } = <TipoPet>req.body;
 
-    
-
     if (!Object.values(EnumEspecie).includes(especie as EnumEspecie)) {
       return res.status(400).json({ erro: "Especie invalida" });
     }
