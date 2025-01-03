@@ -1,26 +1,31 @@
 import express from "express";
 import PetController from "../controller/PetController";
+import PetRepository from "../repositories/PetRepository";
+import { AppDataSource } from "../config/dataSource";
+
 
 const router = express.Router();
 
-const petController = new PetController();
+const petRepository = new PetRepository(AppDataSource.getRepository("PetEntity"))
 
-// create new pet
+const petController = new PetController(petRepository);
+
+// route create new pet
 router.post("/", (req, res) => {
   petController.criaPet(req, res);
 });
 
-// return all pets
+// route return all pets
 router.get("/", (req, res) => {
   petController.listaPets(req, res);
 });
 
-// updated pet
+// route updated pet
 router.put("/:id", (req, res) => {
   petController.atualizaPet(req, res);
 });
 
-// delete pet
+// route delete pet
 router.delete("/:id", (req, res) => {
   petController.deletaPet(req, res)
 })
