@@ -14,7 +14,6 @@ function geraId() {
 }
 
 export default class PetController {
-
   constructor(private repository: PetRepository) {}
 
   // creates new pet
@@ -26,13 +25,12 @@ export default class PetController {
     }
 
     const novoPet = new PetEntity();
-    novoPet.id = geraId(),
-    novoPet.especie = especie,
-    novoPet.nome = nome,
-    novoPet.dataDeNascimento = dataDeNascimento,
-    novoPet.adotado = adotado,
-
-    this.repository.criaPet(novoPet)
+    (novoPet.id = geraId()),
+      (novoPet.especie = especie),
+      (novoPet.nome = nome),
+      (novoPet.dataDeNascimento = dataDeNascimento),
+      (novoPet.adotado = adotado),
+      this.repository.criaPet(novoPet);
 
     return res.status(201).json(novoPet);
   }
@@ -44,34 +42,31 @@ export default class PetController {
   }
 
   // updates pet
-  atualizaPet(req: Request, res: Response) {
+  async atualizaPet(req: Request, res: Response) {
     const { id } = req.params;
-    const { adotado, especie, dataDeNascimento, nome } = req.body as TipoPet;
+    const { success, message } = await this.repository.atualizaPet(
+      Number(id),
+      req.body as PetEntity
+    );
 
-    const pet = listaDePets.find((pet) => pet.id === Number(id));
-
-    if (!pet) {
-      return res.status(404).json({ erro: "Pet não encontrado" });
+    if (!success) {
+      return res.status(404).json({ message });
     }
-
-    pet.nome = nome;
-    pet.dataDeNascimento = dataDeNascimento;
-    pet.especie = especie;
-    pet.adotado = adotado;
-    return res.status(200).json(pet);
+    return res.sendStatus(204);
   }
 
   // delete pet
-  deletaPet(req: Request, res: Response) {
+  async deletaPet(req: Request, res: Response) {
     const { id } = req.params;
-    const pet = listaDePets.find((pet) => pet.id === Number(id));
+    const { success, message } = await this.repository.deletaPet(Number(id));
 
-    if (!pet) {
-      return res.status(404).json({ erro: "Pet não encontrado" });
+    if (!success) {
+      return res.status(404).json({ message });
     }
 
-    const index = listaDePets.indexOf(pet);
-    listaDePets.splice(index, 1);
-    return res.status(200).json({ mensagem: "Pet deletado com sucesso" });
+    return res.sendStatus(204);
   }
 }
+
+
+// Agora, você possui os métodos de atualização (Update) e deletar (Delete) implementados em todas as camadas do seu aplicativo: PetController, PetRouter, InterfacePetRepository e PetRepository. Com isso, o CRUD de Pet está completo e você pode realizar operações de criação, leitura, atualização e exclusão de pets no seu sistema.
