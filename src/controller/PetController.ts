@@ -38,7 +38,8 @@ export default class PetController {
   }
 
   // Return all pets
-  listaPets(req: Request, res: Response) {
+  async listaPets(req: Request, res: Response) {
+    const listaDePets = await this.repository.listaPet();
     return res.status(200).json(listaDePets);
   }
 
