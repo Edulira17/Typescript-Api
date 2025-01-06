@@ -10,22 +10,22 @@ export default class AdotanteEntity {
   senha: string;
   @Column()
   celular: string;
-  @Column()
-  foto: string;
-  @Column()
-  endereco: string;
+  @Column({nullable: true})
+  foto?: string;
+  @Column({nullable: true})
+  endereco?: string;
 
   constructor(
     nome: string,
     senha: string,
     celular: string,
-    foto: string,
-    endereco: string
+    foto?: string,
+    endereco?: string
   ) {
     this.nome = nome;
     this.senha = senha;
-    this.foto = foto;
     this.celular = celular;
+    this.foto = foto;
     this.endereco = endereco;
   }
 }
