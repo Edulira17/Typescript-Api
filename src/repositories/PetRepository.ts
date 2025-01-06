@@ -31,6 +31,8 @@ export default class PetRepository implements InterfacePetRepository {
       Object.assign(petToUpdate, newData);
 
       await this.repository.save(petToUpdate);
+
+      return { success: true };
     } catch (error) {
       console.log(error);
       return {
@@ -54,8 +56,8 @@ export default class PetRepository implements InterfacePetRepository {
     } catch (error) {
       return {
         success: false,
-        message: "Ocorreu um erro ao tentar excluir o pet."
-      }
+        message: "Ocorreu um erro ao tentar excluir o pet.",
+      };
     }
   }
 }

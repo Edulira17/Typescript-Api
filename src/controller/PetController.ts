@@ -17,20 +17,22 @@ export default class PetController {
   constructor(private repository: PetRepository) {}
 
   // creates new pet
-  criaPet(req: Request, res: Response) {
+  async criaPet(req: Request, res: Response) {
     const { especie, nome, dataDeNascimento, adotado } = <PetEntity>req.body;
 
     if (!Object.values(EnumEspecie).includes(especie as EnumEspecie)) {
       return res.status(400).json({ erro: "Especie invalida" });
     }
 
-    const novoPet = new PetEntity();
-    (novoPet.id = geraId()),
-      (novoPet.especie = especie),
-      (novoPet.nome = nome),
-      (novoPet.dataDeNascimento = dataDeNascimento),
-      (novoPet.adotado = adotado),
-      this.repository.criaPet(novoPet);
+    const novoPet = new PetEntity(nome, especie, dataDeNascimento, adotado);
+    
+    novoPet.id = geraId(), 
+    novoPet.adotado = adotado
+    novoPet.especie = especie
+    novoPet.nome = nome
+    novoPet.dataDeNascimento = dataDeNascimento
+
+    await this.repository.criaPet(novoPet);
 
     return res.status(201).json(novoPet);
   }
@@ -67,6 +69,5 @@ export default class PetController {
     return res.sendStatus(204);
   }
 }
-
 
 // Agora, você possui os métodos de atualização (Update) e deletar (Delete) implementados em todas as camadas do seu aplicativo: PetController, PetRouter, InterfacePetRepository e PetRepository. Com isso, o CRUD de Pet está completo e você pode realizar operações de criação, leitura, atualização e exclusão de pets no seu sistema.

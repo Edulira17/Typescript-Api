@@ -3,10 +3,11 @@ import PetController from "../controller/PetController";
 import PetRepository from "../repositories/PetRepository";
 import { AppDataSource } from "../config/dataSource";
 
-
 const router = express.Router();
 
-const petRepository = new PetRepository(AppDataSource.getRepository("PetEntity"))
+const petRepository = new PetRepository(
+  AppDataSource.getRepository("PetEntity")
+);
 
 const petController = new PetController(petRepository);
 
@@ -27,7 +28,7 @@ router.put("/:id", (req, res) => {
 
 // route delete pet
 router.delete("/:id", (req, res) => {
-  petController.deletaPet(req, res)
-})
+  petController.deletaPet(req, res);
+});
 
 export default router;
