@@ -68,6 +68,13 @@ export default class PetController {
 
     return res.sendStatus(204);
   }
+
+  // adota pet
+  async adotaPet(req: Request, res: Response){
+    const {pet_id, adotante_id} = req.params;
+
+    const {success, message} = await this.repository.adotaPet(Number(pet_id), Number(adotante_id))
+  }
 }
 
 // Agora, você possui os métodos de atualização (Update) e deletar (Delete) implementados em todas as camadas do seu aplicativo: PetController, PetRouter, InterfacePetRepository e PetRepository. Com isso, o CRUD de Pet está completo e você pode realizar operações de criação, leitura, atualização e exclusão de pets no seu sistema.
