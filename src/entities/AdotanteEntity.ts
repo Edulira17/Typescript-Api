@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import EnderecoEntity from "./EnderecoEntity";
 
 @Entity()
 export default class AdotanteEntity {
@@ -12,6 +13,8 @@ export default class AdotanteEntity {
   celular: string;
   @Column({nullable: true})
   foto?: string;
+
+  @OneToOne(() => EnderecoEntity, {nullable: true, cascade: true, eager: true})
   @Column({nullable: true})
   endereco?: string;
 

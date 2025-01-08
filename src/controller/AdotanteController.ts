@@ -20,4 +20,38 @@ export default class AdotanteController {
 
     return res.status(201).json(novoAdotante);
   }
+
+  async atualizaAdotante(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const { success, message } = await this.repository.atualizaAdotantes(
+      Number(id),
+      req.body as AdotanteEntity
+    );
+
+    if (!success) {
+      return res.status(404).json({ message });
+    }
+
+    return res.sendStatus(204);
+  }
+
+  async listaAdotantes(req: Request, res: Response) {
+    const listaAdotantes = await this.repository.listaAdotantes();
+    return res.json(listaAdotantes);
+  }
+
+  async deletaAdotante(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const { success, message } = await this.repository.deletaAdotante(
+      Number(id)
+    );
+
+    if (!success) {
+      return res.status(404).json({ message });
+    }
+
+    return res.sendStatus(204)
+  }
 }
